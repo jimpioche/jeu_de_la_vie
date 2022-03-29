@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>undo.png</file>
+    <file>redo.png</file>
+    <file>signe_plus.png</file>
+    <file>enregistrer_sous.png</file>
+    <file>quitter.png</file>
+    <file>sauver.png</file>
+    <file>url.png</file>
+    <file>undo.png</file>
+    <file>mur_rouge.png</file>
+    <file>pause.PNG</file>
+    <file>play.PNG</file>
+  </qresource>
+</RCC>
