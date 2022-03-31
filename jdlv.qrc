@@ -1,15 +1,39 @@
 <RCC>
   <qresource prefix="newPrefix">
+    <file>mur_rouge.png</file>
+    <file>erase.png</file>
+    <file>erase_bis.png</file>
+    <file>pause.png</file>
+    <file>play.png</file>
     <file>undo.png</file>
+    <file>erase.png</file>
+    <file>quitter_2.png</file>
+    <file>hand.png</file>
+    <file>recopier.png</file>
+    <file>undo.png</file>
+    <file>forward.png</file>
+    <file>save_file.png</file>
+    <file>info.png</file>
+    <file>info_small.png</file>
+    <file>copier.png</file>
+    <file>coller.png</file>
+    <file>signe_plus.png</file>
+    <file>sauver.png</file>
+    <file>url.png</file>
+    <file>enregistrer_sous.png</file>
+    <file>back.png</file>
+    <file>red_undo.png</file>
+    <file>quitter.png</file>
+    <file>couper.png</file>
+    <file>redo.png</file>
+    <file>ouvrir.png</file>
     <file>redo.png</file>
     <file>signe_plus.png</file>
     <file>enregistrer_sous.png</file>
     <file>quitter.png</file>
+    <file>erase.png</file>
     <file>sauver.png</file>
     <file>url.png</file>
     <file>undo.png</file>
-    <file>mur_rouge.png</file>
-    <file>pause.PNG</file>
-    <file>play.PNG</file>
   </qresource>
 </RCC>

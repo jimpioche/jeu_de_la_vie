@@ -33,6 +33,9 @@ class Vue (QtWidgets.QWidget):
         self.set_icon (self.ui.pb_save_as, ":/newPrefix/enregistrer_sous.png")
         self.set_icon (self.ui.pb_load, ":/newPrefix/url.png")
         self.set_icon (self.ui.pb_quit, ":/newPrefix/quitter.png")
+        self.set_icon (self.ui.pb_effacer, ":/newPrefix/erase.png")
+        self.set_icon (self.ui.pb_copier, ":/newPrefix/copier.png")
+        self.set_icon (self.ui.pb_coller, ":/newPrefix/coller.png")
 
     def add_examples_in_cb_figures_de_bases (self):
         try:
