@@ -4,7 +4,7 @@ import sys
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 
-default_grid_size = 200
+default_grid_size = 100
 N = default_grid_size
 
 game_name = "Jeu de la vie :"
@@ -12,7 +12,7 @@ game_name = "Jeu de la vie :"
 horizontal_tablew_headers = [""  for i in range (N)]
 vertical_tablew_headers = ["\n\n"  for i in range (N)]
 
-cell_width = 10
+cell_width = 20
 cell_height = cell_width
 
 life_status = 1
@@ -40,3 +40,5 @@ dico_figures_de_base = \
     }      
 
 text_loading_failed = "Le fichier n'a pas pu être téléchargé..."
+text_copier = "Copier"
+text_coller = "Coller"

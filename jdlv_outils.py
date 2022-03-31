@@ -193,3 +193,15 @@ def make_combo_items (files):
     for i in range (len (files)):
         files_items.append (str (files [i]))
     return files_items
+
+def set_text_widget (widget, e):
+    widget.blockSignals (True)
+    if e == None:
+        widget.setText (None)
+    else:
+        widget.setText (str (e))        
+    widget.blockSignals (False)
+
+set_text_line_edit = set_text_widget
+set_text_label = set_text_widget
+set_text_push_button = set_text_widget

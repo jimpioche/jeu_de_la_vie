@@ -31,10 +31,18 @@ class Ctrl_vue ():
         self.grid = self.vue.grid
         self.saved_grids_for_undo = []
         self.saved_grids_for_redo = []
+        self.fisrt_case_for_copying = None
+        self.second_case_for_copying = None
+        self.fisrt_case_for_erasing = None
+        self.second_case_for_erasing = None
+        self.copied_cases = None
         self.playing_or_pausing = "pausing"
         self.is_paused = True
         self.is_playing = False
         self.is_killed = False
+        self.is_copying = False
+        self.is_pasting = False
+        self.is_erasing = False
         #self.theading_event = threading.Event ()
         self.comm = Communicate ()
         self.comm.update_vue.connect (self.action_signal_update_vue_emited)
@@ -46,6 +54,14 @@ class Ctrl_vue ():
         self.vue.ui.pb_save_as.clicked.connect (self.action_pb_save_as_clicked)
         self.vue.ui.pb_load.clicked.connect (self.action_pb_load_clicked)
         self.vue.ui.pb_quit.clicked.connect (self.action_pb_quit_clicked)
+        # self.vue.ui.pb_copier_coller.clicked.connect ( \
+        #     self.action_pb_copier_coller_clicked)
+        self.vue.ui.pb_copier.clicked.connect ( \
+            self.action_pb_copier_clicked)
+        self.vue.ui.pb_coller.clicked.connect ( \
+            self.action_pb_coller_clicked)
+        self.vue.ui.pb_effacer.clicked.connect ( \
+            self.action_pb_effacer_clicked)
         self.vue.ui.pb_add_examples.clicked.connect ( \
             self.action_pb_add_examples_clicked)
         self.vue.ui.tablew_grid.itemSelectionChanged.connect ( \
@@ -58,6 +74,93 @@ class Ctrl_vue ():
                         self.action_cb_figures_de_base__currentIndexChanged)
         self.next_grid = None
         self.fname = None
+
+    def disconnect_widget (self, widget):
+        widget.disconnect ()
+
+    def connect_widget_signal_action (self, widget, signal, action):
+        command = \
+            str (widget) + "." + str (signal) + ".connect (" + str (action) + ")"
+        eval (command)
+
+    def action_pb_copier_clicked (self):
+        print ("\nCopying...")
+        self.is_copying = True
+        self.is_pasting = False
+
+    def action_pb_coller_clicked (self):
+        print ("\nPasting...")
+        self.is_pasting = True
+        self.is_copying = False
+
+    def action_pb_effacer_clicked (self):
+        print ("\nErasing...")
+        self.is_erasing = True
+
+    def action_tablew_grid_cellClicked_while_copying (self, i, j):
+        print ("\nClicking in tablew_grid...")
+        if self.fisrt_case_for_copying == None:
+            self.fisrt_case_for_copying = self.vue.grid.cases [i] [j]
+            self.first_i_for_copying = i
+            self.first_j_for_copying = j
+            print ("(self.first_i_for_copying, self.first_j_for_copying) = " \
+                   + str ((self.first_i_for_copying, self.first_j_for_copying)))
+        else:
+            if self.second_case_for_copying == None:
+                self.second_case_for_copying = self.vue.grid.cases [i] [j]
+                self.second_i_for_copying = i
+                self.second_j_for_copying = j
+                print ("(self.second_i_for_copying, self.second_j_for_copying) = " \
+                       + str ((self.second_i_for_copying, self.second_j_for_copying)))
+        if self.fisrt_case_for_copying != None \
+           and self.second_case_for_copying != None \
+               and self.is_pasting:
+            self.first_i_for_pasting = i
+            self.first_j_for_pasting = j
+            i_gap = abs (self.second_i_for_copying - self.first_i_for_copying)
+            j_gap = abs (self.second_j_for_copying - self.first_j_for_copying)
+            print ("(i_gap, j_gap) = " + str ((i_gap, j_gap)))
+            print ("(self.first_i_for_pasting, self.first_j_for_pasting) = " \
+                     + str ((self.first_i_for_pasting, self.first_j_for_pasting)))
+            for m in range (i_gap):
+                for n in range  (j_gap):
+                    self.vue.grid.cases \
+                        [self.first_i_for_pasting + m] \
+                        [self.first_j_for_pasting + n] ["s"] = \
+                            self.vue.grid.cases [self.first_i_for_copying + m] \
+                                                        [self.first_j_for_copying + n] ["s"]
+                    self.vue.grid.cases \
+                        [self.first_i_for_pasting + m] \
+                        [self.first_j_for_pasting + n] ["c"] = \
+                            self.vue.grid.cases [self.first_i_for_copying + m] \
+                                                        [self.first_j_for_copying + n] ["c"]
+            self.fisrt_case_for_copying = None
+            self.second_case_for_copying = None
+            self.is_pasting = None
+            self.is_copying = None
+        self.vue.update (self.vue.grid)
+
+    def action_pb_copier_coller_clicked (self):
+        if self.vue.ui.pb_copier_coller.text () == text_copier:
+            print ("\nCopying  clicked...\n")
+            #self.vue.ui.tablew_grid.disconnect ()
+            self.vue.ui.tablew_grid.cellClicked.connect ( \
+                self.action_tablew_grid_cellClicked_while_copying)
+            set_text_line_edit (self.vue.ui.pb_copier_coller, text_coller)
+            self.copying_available = False
+            self.is_copying = True
+            self.is_pasting = False
+            self.pasting_available = True
+        else:
+            print ("\nPasting  clicked...\n")
+            set_text_line_edit (self.vue.ui.pb_copier_coller, text_copier)
+            self.copying_available = True
+            self.is_copying = False
+            self.is_pasting = True
+            self.pasting_available = False
+            #self.vue.ui.tablew_grid.disconnect ()
+            #self.vue.ui.tablew_grid.itemSelectionChanged.connect ( \
+            #    self.action_tablew_grid_itemSelectionChanged)
 
     def action_pb_add_examples_clicked (self):
         dialog_res = \
@@ -198,33 +301,90 @@ class Ctrl_vue ():
         return reponse
 
     def action_tablew_grid_itemSelectionChanged (self):
+        print ("\nitem Selection Changed ....signal")
         selected_indexes = self.vue.ui.tablew_grid.selectedIndexes ()
-        if len (selected_indexes) == 1:
+        if not (self.is_copying) and not (self.is_pasting):
+            if len (selected_indexes) == 1:
+                i = selected_indexes [0].row ()
+                j = selected_indexes [0].column ()
+                case = self.vue.grid.cases [i] [j]
+                if is_alive (case):
+                    case = kill_case (case)
+                else:
+                    case = revive_case (case)
+            else:
+                for ix in selected_indexes:
+                    i = ix.row ()
+                    j = ix.column ()
+                    case = self.vue.grid.cases [i] [j]
+                    case = revive_case (case)
+        if self.is_copying and not (self.is_pasting) and not (self.is_erasing):
             i = selected_indexes [0].row ()
             j = selected_indexes [0].column ()
-            case = self.vue.grid.cases [i] [j]
-            if is_alive (case):
-                case = kill_case (case)
+            if self.fisrt_case_for_copying == None:
+                self.fisrt_case_for_copying = self.vue.grid.cases [i] [j]
+                self.first_i_for_copying = i
+                self.first_j_for_copying = j
+                print ("(self.first_i_for_copying, self.first_j_for_copying) = " \
+                       + str ((self.first_i_for_copying, self.first_j_for_copying)))
             else:
-                case = revive_case (case)
-        else:
-            for ix in selected_indexes:
-                i = ix.row ()
-                j = ix.column ()
-                case = self.vue.grid.cases [i] [j]
-                case = revive_case (case)
-            # if self.a_case_is_alive_in_the_selection (selected_indexes):
-            #     for ix in selected_indexes:
-            #         i = ix.row ()
-            #         j = ix.column ()
-            #         case = self.vue.grid.cases [i] [j]
-            #         case = kill_case (case)
-            # else:
-            #     for ix in selected_indexes:
-            #         i = ix.row ()
-            #         j = ix.column ()
-            #         case = self.vue.grid.cases [i] [j]
-            #         case = revive_case (case)
+                if self.second_case_for_copying == None:
+                    self.second_case_for_copying = self.vue.grid.cases [i] [j]
+                    self.second_i_for_copying = i
+                    self.second_j_for_copying = j
+                    print ("(self.second_i_for_copying, self.second_j_for_copying) = " \
+                           + str ((self.second_i_for_copying, self.second_j_for_copying)))
+                    self.is_copying = False
+        if not (self.is_copying) and self.is_pasting and not (self.is_erasing):
+            i = selected_indexes [0].row ()
+            j = selected_indexes [0].column ()
+            if self.fisrt_case_for_copying != None \
+               and self.second_case_for_copying != None:
+                self.first_i_for_pasting = i
+                self.first_j_for_pasting = j
+                i_gap = abs (self.second_i_for_copying - self.first_i_for_copying)
+                j_gap = abs (self.second_j_for_copying - self.first_j_for_copying)
+                print ("(i_gap, j_gap) = " + str ((i_gap, j_gap)))
+                print ("(self.first_i_for_pasting, self.first_j_for_pasting) = " \
+                         + str ((self.first_i_for_pasting, self.first_j_for_pasting)))
+                for m in range (i_gap):
+                    for n in range  (j_gap):
+                        self.vue.grid.cases \
+                            [self.first_i_for_pasting + m] \
+                            [self.first_j_for_pasting + n] ["s"] = \
+                                self.vue.grid.cases [self.first_i_for_copying + m] \
+                                                            [self.first_j_for_copying + n] ["s"]
+                        self.vue.grid.cases \
+                            [self.first_i_for_pasting + m] \
+                            [self.first_j_for_pasting + n] ["c"] = \
+                                self.vue.grid.cases [self.first_i_for_copying + m] \
+                                                            [self.first_j_for_copying + n] ["c"]
+                self.fisrt_case_for_copying = None
+                self.second_case_for_copying = None
+                self.is_pasting = False
+        if not (self.is_copying) and not (self.is_pasting) and self.is_erasing:
+            i = selected_indexes [0].row ()
+            j = selected_indexes [0].column ()
+            if self.fisrt_case_for_erasing == None:
+                self.fisrt_case_for_erasing = self.vue.grid.cases [i] [j]
+                self.first_i_for_erasing = i
+                self.first_j_for_erasing = j
+                print ("(self.first_i_for_erasing, self.first_j_for_erasing) = " \
+                       + str ((self.first_i_for_erasing, self.first_j_for_erasing)))
+            else:
+                if self.second_case_for_erasing == None:
+                    self.second_case_for_erasing = self.vue.grid.cases [i] [j]
+                    self.second_i_for_erasing = i
+                    self.second_j_for_erasing = j
+                    print ("(self.second_i_for_erasing, self.second_j_for_erasing) = " \
+                           + str ((self.second_i_for_erasing, self.second_j_for_erasing)))
+                    for m in range (self.first_i_for_erasing, self.second_i_for_erasing):
+                        for n in range (self.first_j_for_erasing, self.second_j_for_erasing):
+                            self.vue.grid.cases [m] [n] ['s'] = 0
+                            self.vue.grid.cases [m] [n] ['c'] = death_color
+                    self.fisrt_case_for_erasing = None
+                    self.second_case_for_erasing = None
+                    self.is_erasing = False
         self.vue.update (self.vue.grid)
 
         

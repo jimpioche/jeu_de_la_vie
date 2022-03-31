@@ -58,7 +58,7 @@
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_6">
           <property name="bottomMargin">
-           <number>20</number>
+           <number>10</number>
           </property>
           <item row="0" column="2">
            <widget class="QComboBox" name="cb_figures_de_base">
@@ -67,6 +67,40 @@
               <width>180</width>
               <height>0</height>
              </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="7">
+           <layout class="QGridLayout" name="gridLayout_8">
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="4">
+           <widget class="QPushButton" name="pb_add_examples">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ajouter un répertoire contenant des exemples&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/newPrefix/signe_plus.png</normaloff>:/newPrefix/signe_plus.png</iconset>
             </property>
            </widget>
           </item>
@@ -80,11 +114,99 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
+              <width>20</width>
               <height>20</height>
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="0" column="5">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>80</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_numero_generation">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Votre liste d'exemples</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6">
+           <layout class="QGridLayout" name="gridLayout_9">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="pb_copier">
+              <property name="text">
+               <string>Copier</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="4">
+             <widget class="QPushButton" name="pb_effacer">
+              <property name="text">
+               <string>Effacer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="pb_coller">
+              <property name="text">
+               <string>Coller</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
           <item row="0" column="3">
            <spacer name="horizontalSpacer_3">
@@ -101,40 +223,6 @@
              </size>
             </property>
            </spacer>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Vérifiez le comportement des figures initiales de base du jeu de la vie :   </string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="5">
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="4">
-           <widget class="QPushButton" name="pb_add_examples">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ajouter un répertoire contenant des exemples&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="jdlv.qrc">
-              <normaloff>:/newPrefix/signe_plus.png</normaloff>:/newPrefix/signe_plus.png</iconset>
-            </property>
-           </widget>
           </item>
          </layout>
         </item>
@@ -331,7 +419,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="jdlv.qrc">
+               <iconset>
                 <normaloff>:/newPrefix/undo.png</normaloff>:/newPrefix/undo.png</iconset>
               </property>
              </widget>
@@ -345,7 +433,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="jdlv.qrc">
+               <iconset>
                 <normaloff>:/newPrefix/redo.png</normaloff>:/newPrefix/redo.png</iconset>
               </property>
              </widget>
