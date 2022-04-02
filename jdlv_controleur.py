@@ -16,6 +16,7 @@ from jdlv_vue import *
 from jdlv_vue_fromUi import *
 #from jdlv_model import *
 from jdlv_outils import *
+from jdlv_other_functions import *
 from jdlv_data import *
 from jdlv_qrc import *
 #from pyqt5_utils import *
@@ -43,10 +44,12 @@ class Ctrl_vue ():
         self.is_copying = False
         self.is_pasting = False
         self.is_erasing = False
+        self.current_grid_may_not_be_the_shown_grid = False
         #self.theading_event = threading.Event ()
         self.comm = Communicate ()
         self.comm.update_vue.connect (self.action_signal_update_vue_emited)
-        self.vue.ui.pb_play_pause.clicked.connect (self.action_pb_play_pause_clicked)
+        self.vue.ui.pb_play_pause.clicked.connect ( \
+            self.action_pb_play_pause_clicked)
         self.vue.ui.pb_redo_play.clicked.connect (self.action_pb_redo_play_clicked)
         self.vue.ui.pb_undo_play.clicked.connect (self.action_pb_undo_play_clicked)
         self.vue.ui.pb_reset.clicked.connect (self.action_pb_reset_clicked)
@@ -83,35 +86,38 @@ class Ctrl_vue ():
             str (widget) + "." + str (signal) + ".connect (" + str (action) + ")"
         eval (command)
 
+    def action_pb_play_from_scene_clicked (self):
+        pass
+
     def action_pb_copier_clicked (self):
-        print ("\nCopying...")
+        #print ("\nCopying...")
         self.is_copying = True
         self.is_pasting = False
 
     def action_pb_coller_clicked (self):
-        print ("\nPasting...")
+        #print ("\nPasting...")
         self.is_pasting = True
         self.is_copying = False
 
     def action_pb_effacer_clicked (self):
-        print ("\nErasing...")
+        #print ("\nErasing...")
         self.is_erasing = True
 
     def action_tablew_grid_cellClicked_while_copying (self, i, j):
-        print ("\nClicking in tablew_grid...")
+        #print ("\nClicking in tablew_grid...")
         if self.fisrt_case_for_copying == None:
             self.fisrt_case_for_copying = self.vue.grid.cases [i] [j]
             self.first_i_for_copying = i
             self.first_j_for_copying = j
-            print ("(self.first_i_for_copying, self.first_j_for_copying) = " \
-                   + str ((self.first_i_for_copying, self.first_j_for_copying)))
+            #print ("(self.first_i_for_copying, self.first_j_for_copying) = " \
+            #       + str ((self.first_i_for_copying, self.first_j_for_copying)))
         else:
             if self.second_case_for_copying == None:
                 self.second_case_for_copying = self.vue.grid.cases [i] [j]
                 self.second_i_for_copying = i
                 self.second_j_for_copying = j
-                print ("(self.second_i_for_copying, self.second_j_for_copying) = " \
-                       + str ((self.second_i_for_copying, self.second_j_for_copying)))
+                #print ("(self.second_i_for_copying, self.second_j_for_copying) = " \
+                #       + str ((self.second_i_for_copying, self.second_j_for_copying)))
         if self.fisrt_case_for_copying != None \
            and self.second_case_for_copying != None \
                and self.is_pasting:
@@ -119,9 +125,9 @@ class Ctrl_vue ():
             self.first_j_for_pasting = j
             i_gap = abs (self.second_i_for_copying - self.first_i_for_copying)
             j_gap = abs (self.second_j_for_copying - self.first_j_for_copying)
-            print ("(i_gap, j_gap) = " + str ((i_gap, j_gap)))
-            print ("(self.first_i_for_pasting, self.first_j_for_pasting) = " \
-                     + str ((self.first_i_for_pasting, self.first_j_for_pasting)))
+            #print ("(i_gap, j_gap) = " + str ((i_gap, j_gap)))
+            #print ("(self.first_i_for_pasting, self.first_j_for_pasting) = " \
+            #         + str ((self.first_i_for_pasting, self.first_j_for_pasting)))
             for m in range (i_gap):
                 for n in range  (j_gap):
                     self.vue.grid.cases \
@@ -142,7 +148,7 @@ class Ctrl_vue ():
 
     def action_pb_copier_coller_clicked (self):
         if self.vue.ui.pb_copier_coller.text () == text_copier:
-            print ("\nCopying  clicked...\n")
+            #print ("\nCopying  clicked...\n")
             #self.vue.ui.tablew_grid.disconnect ()
             self.vue.ui.tablew_grid.cellClicked.connect ( \
                 self.action_tablew_grid_cellClicked_while_copying)
@@ -152,7 +158,7 @@ class Ctrl_vue ():
             self.is_pasting = False
             self.pasting_available = True
         else:
-            print ("\nPasting  clicked...\n")
+            #print ("\nPasting  clicked...\n")
             set_text_line_edit (self.vue.ui.pb_copier_coller, text_copier)
             self.copying_available = True
             self.is_copying = False
@@ -184,19 +190,31 @@ class Ctrl_vue ():
 
     def action_pb_undo_play_clicked (self):
         try:
-            grid = self.saved_grids_for_undo.pop ()
-            self.saved_grids_for_redo.append (grid)
-            self.vue.update (grid)
+            self.current_undo_grid = self.saved_grids_for_undo.pop ()
+            self.saved_grids_for_redo.append (self.current_undo_grid)
+            #self.current_grid_may_not_be_the_shown_grid = True
+            self.vue.grid = self.current_undo_grid
+            self.vue.update (self.vue.grid)
         except:
             pass
 
     def action_pb_redo_play_clicked (self):
         try:
-            grid = self.saved_grids_for_redo.pop ()
-            self.saved_grids_for_undo.append (grid)
-            self.vue.update (grid)
+            self.current_redo_grid = self.saved_grids_for_redo.pop ()
+            self.saved_grids_for_undo.append (self.current_redo_grid)
+            #self.current_grid_may_not_be_the_shown_grid = True
+            self.vue.grid = self.current_redo_grid
+            self.vue.update (self.vue.grid)
         except:
             pass
+
+    def grid_shown_in (self, table_widget):
+        for i in range (table_widget.rowCount ()):
+            for j in range (table_widget.columnCount ()):
+                item = table_widget.item (i, j)
+                color = item.background ().color ()
+                print ("color = " + str (color))
+        return "Ok"
 
     def action_pb_play_pause_clicked (self):
         if self.is_playing:
@@ -212,15 +230,14 @@ class Ctrl_vue ():
             self.saved_grids_for_undo.append (self.vue.grid)
         some_status_changed = True
         starting_grid = self.vue.grid
+        self.first_iteration_of_play = True
         while True:
             if self.is_paused:
                 break
             else:
-                #print ("Calculating next_grid")
                 QApplication.processEvents ()
                 self.next_grid = apply_life_rules (starting_grid)
                 self.vue.update (self.next_grid)
-                #self.comm.update_vue.emit ()
                 starting_grid = self.next_grid
         self.vue.grid = self.next_grid
 
@@ -301,7 +318,7 @@ class Ctrl_vue ():
         return reponse
 
     def action_tablew_grid_itemSelectionChanged (self):
-        print ("\nitem Selection Changed ....signal")
+        #print ("\nitem Selection Changed ....signal")
         selected_indexes = self.vue.ui.tablew_grid.selectedIndexes ()
         if not (self.is_copying) and not (self.is_pasting):
             if len (selected_indexes) == 1:
@@ -325,15 +342,15 @@ class Ctrl_vue ():
                 self.fisrt_case_for_copying = self.vue.grid.cases [i] [j]
                 self.first_i_for_copying = i
                 self.first_j_for_copying = j
-                print ("(self.first_i_for_copying, self.first_j_for_copying) = " \
-                       + str ((self.first_i_for_copying, self.first_j_for_copying)))
+                #print ("(self.first_i_for_copying, self.first_j_for_copying) = " \
+                #       + str ((self.first_i_for_copying, self.first_j_for_copying)))
             else:
                 if self.second_case_for_copying == None:
                     self.second_case_for_copying = self.vue.grid.cases [i] [j]
                     self.second_i_for_copying = i
                     self.second_j_for_copying = j
-                    print ("(self.second_i_for_copying, self.second_j_for_copying) = " \
-                           + str ((self.second_i_for_copying, self.second_j_for_copying)))
+                    #print ("(self.second_i_for_copying, self.second_j_for_copying) = " \
+                    #       + str ((self.second_i_for_copying, self.second_j_for_copying)))
                     self.is_copying = False
         if not (self.is_copying) and self.is_pasting and not (self.is_erasing):
             i = selected_indexes [0].row ()
@@ -344,9 +361,9 @@ class Ctrl_vue ():
                 self.first_j_for_pasting = j
                 i_gap = abs (self.second_i_for_copying - self.first_i_for_copying)
                 j_gap = abs (self.second_j_for_copying - self.first_j_for_copying)
-                print ("(i_gap, j_gap) = " + str ((i_gap, j_gap)))
-                print ("(self.first_i_for_pasting, self.first_j_for_pasting) = " \
-                         + str ((self.first_i_for_pasting, self.first_j_for_pasting)))
+                #print ("(i_gap, j_gap) = " + str ((i_gap, j_gap)))
+                #print ("(self.first_i_for_pasting, self.first_j_for_pasting) = " \
+                #         + str ((self.first_i_for_pasting, self.first_j_for_pasting)))
                 for m in range (i_gap):
                     for n in range  (j_gap):
                         self.vue.grid.cases \
@@ -369,15 +386,15 @@ class Ctrl_vue ():
                 self.fisrt_case_for_erasing = self.vue.grid.cases [i] [j]
                 self.first_i_for_erasing = i
                 self.first_j_for_erasing = j
-                print ("(self.first_i_for_erasing, self.first_j_for_erasing) = " \
-                       + str ((self.first_i_for_erasing, self.first_j_for_erasing)))
+                #print ("(self.first_i_for_erasing, self.first_j_for_erasing) = " \
+                #       + str ((self.first_i_for_erasing, self.first_j_for_erasing)))
             else:
                 if self.second_case_for_erasing == None:
                     self.second_case_for_erasing = self.vue.grid.cases [i] [j]
                     self.second_i_for_erasing = i
                     self.second_j_for_erasing = j
-                    print ("(self.second_i_for_erasing, self.second_j_for_erasing) = " \
-                           + str ((self.second_i_for_erasing, self.second_j_for_erasing)))
+                    #print ("(self.second_i_for_erasing, self.second_j_for_erasing) = " \
+                    #       + str ((self.second_i_for_erasing, self.second_j_for_erasing)))
                     for m in range (self.first_i_for_erasing, self.second_i_for_erasing):
                         for n in range (self.first_j_for_erasing, self.second_j_for_erasing):
                             self.vue.grid.cases [m] [n] ['s'] = 0

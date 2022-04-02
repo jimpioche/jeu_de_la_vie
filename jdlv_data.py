@@ -25,6 +25,9 @@ default_empty_file_name = "Untitled.jdlv"
 
 text_enregistrer_sous = "Enregistrer sous"
 text_directory_of_examples ="Répertoire d'exemples .jdlv"
+message_change_starting_grid = \
+    "Souhaitez-vous repartir de la configuration qui apparait " \
+    "actuellement sur la grille ?"
 
 if not os.path.exists (os.path.expanduser (r'~') + "/jeu_de_la_vie"):
     os.makedirs (os.path.expanduser (r'~') + "/jeu_de_la_vie")

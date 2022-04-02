@@ -26,34 +26,10 @@ def adapter_affichage_du_tablewidget ( \
     for i in range (grid_size):
         tablew.setColumnWidth (i, cell_width)
         tablew.setRowHeight (i, cell_height)
-    #tablew.horizontalHeader ().setFixedWidth (case_width)
-    #tablew.verticalHeader ().setFixedHeight (case_width)
-    # #tablew.horizontalHeader ().setDefaultSectionSize (case_width)
-    # tablew.horizontalHeader ().setFixedWidth (case_width)
-    # #tablew.horizontalHeader ().setMinimumSectionSize (case_width)
-    # #tablew.verticalHeader ().setMinimumSectionSize (case_height)
-    # #tablew.verticalHeader ().setDefaultSectionSize (case_height)
-    # tablew.verticalHeader ().setFixedHeight (case_width)
-    # for i in range (len (horizontal_entetes)):
-    #     item = QtWidgets.QTableWidgetItem ()
-    #     tablew.setHorizontalHeaderItem (i, item)
-    #     tablew.horizontalHeaderItem (i).setText (\
-    #       QtWidgets.QApplication.translate("Form", horizontal_entetes [i], None))
-    #     header = tablew.horizontalHeader ()
-    #     header.setSectionResizeMode (i, \
-    #         QtWidgets.QHeaderView.ResizeToContents)
-    #     item = QtWidgets.QTableWidgetItem ()
-    #     tablew.setVerticalHeaderItem (i, item)
-    #     tablew.verticalHeaderItem (i).setText (\
-    #       QtWidgets.QApplication.translate("Form", vertical_entetes [i], None))
-    #     header = tablew.verticalHeader ()
-    #     header.setSectionResizeMode (i, \
-    #         QtWidgets.QHeaderView.ResizeToContents)
 
 def set_tablew_item_color (tablew, i, j, brush):
     tablew.blockSignals (True)
     item = tablew.item (int(i), int(j))
-    #brush = QtGui.QBrush (QtGui.QColor (color))
     item.setBackground (brush)
     tablew.blockSignals (False)
 

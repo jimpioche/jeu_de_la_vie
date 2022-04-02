@@ -99,7 +99,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="jdlv.qrc">
               <normaloff>:/newPrefix/signe_plus.png</normaloff>:/newPrefix/signe_plus.png</iconset>
             </property>
            </widget>
@@ -243,7 +243,37 @@
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_3">
+          <item row="15" column="0">
+           <widget class="QPushButton" name="pb_quit">
+            <property name="text">
+             <string>  Quitter</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="0">
+           <widget class="QPushButton" name="pb_load">
+            <property name="text">
+             <string>  Load</string>
+            </property>
+           </widget>
+          </item>
           <item row="12" column="0">
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="14" column="0">
            <spacer name="verticalSpacer_4">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -260,34 +290,11 @@
            </spacer>
           </item>
           <item row="7" column="0">
-           <widget class="QPushButton" name="pb_save">
-            <property name="text">
-             <string>  Save</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
            <widget class="QPushButton" name="pb_reset">
             <property name="text">
              <string>   Reset</string>
             </property>
            </widget>
-          </item>
-          <item row="2" column="0">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>5</height>
-             </size>
-            </property>
-           </spacer>
           </item>
           <item row="0" column="0">
            <spacer name="verticalSpacer_6">
@@ -305,8 +312,95 @@
             </property>
            </spacer>
           </item>
+          <item row="6" column="0">
+           <spacer name="verticalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="8" column="0">
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="9" column="0">
+           <widget class="QPushButton" name="pb_save">
+            <property name="text">
+             <string>  Save</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <layout class="QGridLayout" name="gridLayout_7">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="pb_undo_play">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Parcours des états sauvegardés à chaque clique sur &amp;quot;Play&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="jdlv.qrc">
+                <normaloff>:/newPrefix/undo.png</normaloff>:/newPrefix/undo.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="pb_redo_play">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Parcours des états sauvegardés à chaque clique sur &amp;quot;Play&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="jdlv.qrc">
+                <normaloff>:/newPrefix/redo.png</normaloff>:/newPrefix/redo.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>30</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
           <item row="10" column="0">
-           <spacer name="verticalSpacer_7">
+           <spacer name="verticalSpacer_5">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -339,8 +433,15 @@
             </property>
            </widget>
           </item>
-          <item row="8" column="0">
-           <spacer name="verticalSpacer_5">
+          <item row="5" column="0">
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Play from scene</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <spacer name="verticalSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -350,20 +451,20 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>40</height>
+              <height>5</height>
              </size>
             </property>
            </spacer>
           </item>
-          <item row="9" column="0">
+          <item row="11" column="0">
            <widget class="QPushButton" name="pb_save_as">
             <property name="text">
              <string>Save As</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
-           <spacer name="verticalSpacer_3">
+          <item row="4" column="0">
+           <spacer name="verticalSpacer_9">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -373,88 +474,10 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>40</height>
+              <height>5</height>
              </size>
             </property>
            </spacer>
-          </item>
-          <item row="13" column="0">
-           <widget class="QPushButton" name="pb_quit">
-            <property name="text">
-             <string>  Quitter</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <spacer name="verticalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="11" column="0">
-           <widget class="QPushButton" name="pb_load">
-            <property name="text">
-             <string>  Load</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <layout class="QGridLayout" name="gridLayout_7">
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QPushButton" name="pb_undo_play">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Parcours des états sauvegardés à chaque clique sur &amp;quot;Play&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/newPrefix/undo.png</normaloff>:/newPrefix/undo.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="pb_redo_play">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Parcours des états sauvegardés à chaque clique sur &amp;quot;Play&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>:/newPrefix/redo.png</normaloff>:/newPrefix/redo.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Fixed</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>30</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
           </item>
          </layout>
         </item>

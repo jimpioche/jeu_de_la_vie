@@ -2,7 +2,6 @@
 # Création de la structure de donnée                                     
 ########################################
 
-
 from jdlv_data import *
 
 class Grid ():
