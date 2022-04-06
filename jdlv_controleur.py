@@ -238,11 +238,6 @@ class Ctrl_vue ():
             if self.is_paused:
                 break
             else:
-                QApplication.processEvents ()
-                self.next_grid = apply_rules (starting_grid)
-                self.vue.update (self.next_grid)
-                starting_grid = self.next_grid
-                
                 if compteur % 11 == 0:
                     print ("COMPTEUR % 11  is  0")
                     QApplication.processEvents ()

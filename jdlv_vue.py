@@ -62,9 +62,10 @@ class Vue (QtWidgets.QWidget):
     def update (self, grid):
         for i in range (len (grid.cases)):
             for j in range (len (grid.cases)):
-                color = grid.cases [i][j]['c']
-                if color == life_color:
-                    brush = life_brush
-                else:
-                    brush = death_brush
+                color = grid.cases [i] [j] ['c']
+                brush = brushes [color]
+                # if color == life_color:
+                #     brush = brushes [color]
+                # else:
+                #     brush = death_brush
                 set_tablew_item_color (self.ui.tablew_grid, i, j, brush)

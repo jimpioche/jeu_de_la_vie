@@ -8,11 +8,10 @@ from os.path import isfile, join
 import random
 import json
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import * 
 
 from jdlv_data import * 
-from jdlv_model import *
-
+from jdlv_model import * 
 
 def adapter_affichage_du_tablewidget ( \
                                        tablew, \
@@ -84,8 +83,14 @@ def is_dead (case):
 
 def get_voisins (cases, i, j):
     voisins = \
-                [cases[i-1][j+1], cases[i][j+1], cases[i+1][j+1], cases[i-1][j], \
-                 cases[i+1][j], cases[i-1][j-1], cases[i][j-1], cases[i+1][j-1]]
+                [cases[i-1][j+1], \
+                 cases[i][j+1], \
+                 cases[i+1][j+1], \
+                 cases[i-1][j], \
+                 cases[i+1][j], \
+                 cases[i-1][j-1], \
+                 cases[i][j-1], \
+                 cases[i+1][j-1]]
     return voisins
 
 def count_alive_voisins (voisins):
@@ -102,52 +107,11 @@ def kill_case (case):
 
 def revive_case (case):
     case ["s"] = life_status
-    case ["c"] = life_color
+    case ["c"] = "red"
     return case
 
-def apply_life_rules (grid):
-    previous_grid = grid
-    previous_cases = previous_grid.cases
-    cases = grid.cases # cases is a list of lists of dictionnaries
-    next_grid = Grid (len (cases))
-    next_cases = next_grid.cases
-    some_case_changed_its_status = False
-    for i in range (1, len (cases) - 1):
-        for j in range (1, len (cases) - 1):
-            previous_status = cases [i][j]['s']
-            voisins = get_voisins (cases, i, j)
-            nbre_alive_voisins = count_alive_voisins (voisins)
-            if nbre_alive_voisins == 3:
-                next_cases [i] [j] = revive_case (next_cases [i] [j])
-                if previous_status != life_status:
-                    some_case_changed_its_status = True
-            elif nbre_alive_voisins <= 1 or nbre_alive_voisins >= 4:
-                next_cases [i] [j] = kill_case (next_cases [i] [j])
-                if previous_status != death_status:
-                    some_case_changed_its_status = True
-            else:
-                next_cases [i] [j] = cases [i] [j]
-    return next_grid
-    
-    # # #####   Loup - RENARD - BELETTE   
-    # cases = grid.cases # cases is a list of lists of dictionnaries
-    # some_case_changed_its_status = False
-    # for i in range (1, len (cases) - 1):
-    #     for j in range (1, len (cases) - 1):
-    #         previous_status = cases [i][j]['s']
-    #         voisins = get_voisins (cases, i, j)
-    #         nbre_alive_voisins = count_alive_voisins (voisins)
-    #         if nbre_alive_voisins == 3 or nbre_alive_voisins == 2:
-    #             cases [i][j] = revive_case (cases [i][j])
-    #             if previous_status != life_status:
-    #                 some_case_changed_its_status = True
-    #         elif nbre_alive_voisins <= 1 or nbre_alive_voisins >= 4:
-    #             cases[i][j] = kill_case (cases[i][j])
-    #             if previous_status != death_status:
-    #                 some_case_changed_its_status = True
-    #         else:
-    #             pass
-    # return grid
+def play_music (historique):
+    pass
 
 def json_load (fname):
         file = open (fname, "r")

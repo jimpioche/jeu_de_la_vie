@@ -12,7 +12,11 @@ game_name = "Jeu de la vie :"
 horizontal_tablew_headers = [""  for i in range (N)]
 vertical_tablew_headers = ["\n\n"  for i in range (N)]
 
-cell_width = 20
+historique = []
+
+rotation_period = 4
+
+cell_width = 10
 cell_height = cell_width
 
 life_status = 1
@@ -21,6 +25,12 @@ life_brush = QtGui.QBrush (QtGui.QColor (life_color))
 death_status = 0
 death_color = 'white'
 death_brush = QtGui.QBrush (QtGui.QColor (death_color))
+
+colors = ["red", "blue", "yellow", "pink", "green", "black", "white"]
+brushes = {}
+for color in colors:
+    brushes [color] = QtGui.QBrush (QtGui.QColor (color))
+
 default_empty_file_name = "Untitled.jdlv"
 
 text_enregistrer_sous = "Enregistrer sous"
