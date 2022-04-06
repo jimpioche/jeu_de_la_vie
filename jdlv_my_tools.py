@@ -58,5 +58,4 @@ def apply_game_of_life_rules (grid):
 def apply_rules (grid):
     for i in range (10):
         next_grid = apply_game_of_life_rules (grid)
-    next_grid = apply_monsuper_algo (next_grid)
     return next_grid
