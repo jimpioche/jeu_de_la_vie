@@ -16,6 +16,7 @@ from jdlv_vue import *
 from jdlv_vue_fromUi import *
 #from jdlv_model import *
 from jdlv_outils import *
+from jdlv_my_tools import *
 from jdlv_other_functions import *
 from jdlv_data import *
 from jdlv_qrc import *
@@ -216,6 +217,9 @@ class Ctrl_vue ():
                 print ("color = " + str (color))
         return "Ok"
 
+    def bidon (self):
+        pass
+
     def action_pb_play_pause_clicked (self):
         if self.is_playing:
             self.is_playing = False
@@ -228,26 +232,42 @@ class Ctrl_vue ():
             self.vue.set_icon (self.vue.ui.pb_play_pause, ":/newPrefix/pause.PNG")
             self.vue.ui.pb_play_pause.setText ("Pause")
             self.saved_grids_for_undo.append (self.vue.grid)
-        some_status_changed = True
         starting_grid = self.vue.grid
-        self.first_iteration_of_play = True
+        compteur = 0
         while True:
             if self.is_paused:
                 break
             else:
                 QApplication.processEvents ()
-                self.next_grid = apply_life_rules (starting_grid)
+                self.next_grid = apply_rules (starting_grid)
                 self.vue.update (self.next_grid)
                 starting_grid = self.next_grid
+                
+                if compteur % 11 == 0:
+                    print ("COMPTEUR % 11  is  0")
+                    QApplication.processEvents ()
+                    self.next_grid = \
+                        make_conway (starting_grid, \
+                                                compteur + 4, \
+                                                compteur + 4, 'red')
+                    # self.next_grid = \
+                    #     apply_game_of_life_rules (starting_grid)
+                    self.vue.update (self.next_grid)
+                else:
+                    print ("COMPTEUR % 11 is NOT 0")
+                    time.sleep (0.2)
+                    QApplication.processEvents ()
+                    #self.next_grid = clean_grid (starting_grid)
+                    self.next_grid = apply_game_of_life_rules (starting_grid)
+                    self.vue.update (self.next_grid)
+                starting_grid = self.next_grid
+                compteur += 1
         self.vue.grid = self.next_grid
 
     def action_pb_reset_clicked (self):
         self.saved_grids_for_undo = []
         self.saved_grids_for_redo = []
-        for i in range (self.vue.current_grid_size):
-            for j in range (self.vue.current_grid_size):
-                self.vue.grid.cases [i][j]['s'] = death_status
-                self.vue.grid.cases [i][j]['c'] = death_color
+        self.vue.grid = clean_grid (self.vue.grid)
         self.vue.update (self.vue.grid)
 
     def action_pb_save_as_clicked (self):
