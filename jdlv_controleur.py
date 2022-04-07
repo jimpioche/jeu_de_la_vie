@@ -6,6 +6,7 @@ import os
 import sys
 import time
 import threading
+
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 #from PyQt5.QtCore import *
@@ -203,7 +204,6 @@ class Ctrl_vue ():
         try:
             self.current_redo_grid = self.saved_grids_for_redo.pop ()
             self.saved_grids_for_undo.append (self.current_redo_grid)
-            #self.current_grid_may_not_be_the_shown_grid = True
             self.vue.grid = self.current_redo_grid
             self.vue.update (self.vue.grid)
         except:
@@ -224,12 +224,14 @@ class Ctrl_vue ():
         if self.is_playing:
             self.is_playing = False
             self.is_paused = True
-            self.vue.set_icon (self.vue.ui.pb_play_pause, ":/newPrefix/play.PNG")
+            self.vue.set_icon ( \
+                                self.vue.ui.pb_play_pause, ":/newPrefix/play.PNG")
             self.vue.ui.pb_play_pause.setText ("Play")
         else:
             self.is_playing = True
             self.is_paused = False
-            self.vue.set_icon (self.vue.ui.pb_play_pause, ":/newPrefix/pause.PNG")
+            self.vue.set_icon ( \
+                                self.vue.ui.pb_play_pause, ":/newPrefix/pause.PNG")
             self.vue.ui.pb_play_pause.setText ("Pause")
             self.saved_grids_for_undo.append (self.vue.grid)
         starting_grid = self.vue.grid
@@ -238,23 +240,9 @@ class Ctrl_vue ():
             if self.is_paused:
                 break
             else:
-                if compteur % 11 == 0:
-                    print ("COMPTEUR % 11  is  0")
-                    QApplication.processEvents ()
-                    self.next_grid = \
-                        make_conway (starting_grid, \
-                                                compteur + 4, \
-                                                compteur + 4, 'red')
-                    # self.next_grid = \
-                    #     apply_game_of_life_rules (starting_grid)
-                    self.vue.update (self.next_grid)
-                else:
-                    print ("COMPTEUR % 11 is NOT 0")
-                    time.sleep (0.2)
-                    QApplication.processEvents ()
-                    #self.next_grid = clean_grid (starting_grid)
-                    self.next_grid = apply_game_of_life_rules (starting_grid)
-                    self.vue.update (self.next_grid)
+                QApplication.processEvents ()
+                self.next_grid = apply_rules (starting_grid, compteur)
+                self.vue.update (self.next_grid)
                 starting_grid = self.next_grid
                 compteur += 1
         self.vue.grid = self.next_grid
